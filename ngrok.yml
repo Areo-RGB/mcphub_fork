@@ -1,0 +1,8 @@
+version: "3"
+agent:
+  authtoken: 3EJnCTQtMnaQnak5qksvn2ZHNOG_5G1HYEZ5UWR22KEQQGqLz
+endpoints:
+  - name: mcphub
+    url: https://camcorder-delicacy-broom.ngrok-free.dev
+    upstream:
+      url: http://127.0.0.1:3000

@@ -1,42 +1,37 @@
 {
   "mcpServers": {
-    "amap": {
-      "command": "npx",
+    "ssh-mcp": {
+      "type": "stdio",
+      "command": "node",
       "args": [
-        "-y",
-        "@amap/amap-maps-mcp-server"
+        "../ssh-mcp/build/index.js",
+        "--host=127.0.0.1",
+        "--port=22",
+        "--user=paul",
+        "--key=/home/paul/.ssh/id_ed25519",
+        "--insecureHostKey",
+        "--group=dev",
+        "--disableApproval"
       ],
       "env": {
-        "AMAP_MAPS_API_KEY": "your-api-key"
-      }
-    },
-    "playwright": {
-      "command": "npx",
-      "args": [
-        "@playwright/mcp@latest",
-        "--headless"
-      ]
-    },
-    "fetch": {
-      "command": "uvx",
-      "args": [
-        "mcp-server-fetch"
-      ]
-    },
-    "slack": {
-      "command": "npx",
-      "args": [
-        "-y",
-        "@modelcontextprotocol/server-slack"
-      ],
-      "env": {
-        "SLACK_BOT_TOKEN": "your-bot-token",
-        "SLACK_TEAM_ID": "your-team-id"
-      }
+        "SSH_MCP_PASSWORD": "1234",
+        "SSH_MCP_SUDO_PASSWORD": "1234"
+      },
+      "enabled": true
     }
   },
-  "users": [],
+  "users": [
+    {
+      "username": "admin",
+      "password": "$2b$10$wfXBxWMnkIUvcsYw3AXFDu5.62hTIQh37cEKHUXzx.u8PWyPyR30e",
+      "isAdmin": true
+    }
+  ],
   "systemConfig": {
+    "routing": {
+      "skipAuth": true,
+      "enableBearerAuth": false
+    },
     "oauthServer": {
       "enabled": true,
       "accessTokenLifetime": 3600,
