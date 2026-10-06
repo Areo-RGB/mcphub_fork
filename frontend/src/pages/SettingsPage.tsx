@@ -474,10 +474,12 @@ const SettingsPage: React.FC = () => {
     pythonIndexUrl: string;
     npmRegistry: string;
     baseUrl: string;
+    publicBaseUrl: string;
   }>({
     pythonIndexUrl: '',
     npmRegistry: '',
     baseUrl: 'http://localhost:3000',
+    publicBaseUrl: '',
   });
 
   const [tempSmartRoutingConfig, setTempSmartRoutingConfig] = useState<{
@@ -851,7 +853,7 @@ const SettingsPage: React.FC = () => {
   };
 
   const handleInstallConfigChange = (
-    key: 'pythonIndexUrl' | 'npmRegistry' | 'baseUrl',
+    key: 'pythonIndexUrl' | 'npmRegistry' | 'baseUrl' | 'publicBaseUrl',
     value: string,
   ) => {
     setInstallConfig({
@@ -860,7 +862,9 @@ const SettingsPage: React.FC = () => {
     });
   };
 
-  const saveInstallConfig = async (key: 'pythonIndexUrl' | 'npmRegistry' | 'baseUrl') => {
+  const saveInstallConfig = async (
+    key: 'pythonIndexUrl' | 'npmRegistry' | 'baseUrl' | 'publicBaseUrl',
+  ) => {
     await updateInstallConfig(key, installConfig[key]);
   };
 
@@ -3858,6 +3862,30 @@ const SettingsPage: React.FC = () => {
                   />
                   <button
                     onClick={() => saveInstallConfig('baseUrl')}
+                    disabled={loading}
+                    className="hub-btn primary"
+                  >
+                    {t('common.save')}
+                  </button>
+                </div>
+              </div>
+
+              <div className="p-3 bg-gray-50 dark:bg-gray-800 rounded-md">
+                <div className="mb-2">
+                  <h3 className="font-medium text-gray-700">{t('settings.publicBaseUrl')}</h3>
+                  <p className="text-sm text-gray-500">{t('settings.publicBaseUrlDescription')}</p>
+                </div>
+                <div className="flex items-center gap-3">
+                  <input
+                    type="text"
+                    value={installConfig.publicBaseUrl}
+                    onChange={(e) => handleInstallConfigChange('publicBaseUrl', e.target.value)}
+                    placeholder={t('settings.publicBaseUrlPlaceholder')}
+                    className="flex-1 mt-1 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm form-input"
+                    disabled={loading}
+                  />
+                  <button
+                    onClick={() => saveInstallConfig('publicBaseUrl')}
                     disabled={loading}
                     className="hub-btn primary"
                   >

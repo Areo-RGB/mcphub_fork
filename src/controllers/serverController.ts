@@ -1693,7 +1693,8 @@ export const updateSystemConfig = async (req: Request, res: Response): Promise<v
       install &&
       (typeof install.pythonIndexUrl === 'string' ||
         typeof install.npmRegistry === 'string' ||
-        typeof install.baseUrl === 'string');
+        typeof install.baseUrl === 'string' ||
+        typeof install.publicBaseUrl === 'string');
 
     const hasSmartRoutingUpdate =
       smartRouting &&
@@ -1970,6 +1971,9 @@ export const updateSystemConfig = async (req: Request, res: Response): Promise<v
       }
       if (typeof install.baseUrl === 'string') {
         systemConfig.install.baseUrl = install.baseUrl;
+      }
+      if (typeof install.publicBaseUrl === 'string') {
+        systemConfig.install.publicBaseUrl = install.publicBaseUrl.trim();
       }
     }
 

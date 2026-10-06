@@ -27,6 +27,7 @@ interface InstallConfig {
   pythonIndexUrl: string;
   npmRegistry: string;
   baseUrl: string;
+  publicBaseUrl: string;
 }
 
 interface SmartRoutingConfig {
@@ -355,6 +356,7 @@ export const SettingsProvider: React.FC<SettingsProviderProps> = ({ children }) 
     pythonIndexUrl: '',
     npmRegistry: '',
     baseUrl: 'http://localhost:3000',
+    publicBaseUrl: '',
   });
 
   const [smartRoutingConfig, setSmartRoutingConfig] = useState<SmartRoutingConfig>({
@@ -440,6 +442,7 @@ export const SettingsProvider: React.FC<SettingsProviderProps> = ({ children }) 
           pythonIndexUrl: data.data.systemConfig.install.pythonIndexUrl || '',
           npmRegistry: data.data.systemConfig.install.npmRegistry || '',
           baseUrl: data.data.systemConfig.install.baseUrl || 'http://localhost:3000',
+          publicBaseUrl: data.data.systemConfig.install.publicBaseUrl || '',
         });
       }
       if (data.success && data.data?.systemConfig?.smartRouting) {

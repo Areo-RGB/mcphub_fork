@@ -1,7 +1,16 @@
 import { useAuth } from '@/contexts/AuthContext';
 import { useState, useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Edit3, Trash2, Copy, Check, Link as LinkIcon, FileCode, ChevronDown } from 'lucide-react';
+import {
+  Edit3,
+  Trash2,
+  Copy,
+  Check,
+  Link as LinkIcon,
+  FileCode,
+  ChevronDown,
+  Globe,
+} from 'lucide-react';
 import { Group, Server, IGroupServerConfig, GroupCost } from '@/types';
 import DeleteDialog from '@/components/ui/DeleteDialog';
 import CopyClientConfigDialog from '@/components/ui/CopyClientConfigDialog';
@@ -48,6 +57,7 @@ const GroupCard = ({ group, servers, onEdit, onDelete, cost }: GroupCardProps) =
   const { showToast } = useToast();
   const { installConfig, nameSeparator } = useSettingsData();
   const baseUrl = installConfig?.baseUrl?.replace(/\/+$/, '') || '';
+  const publicBaseUrl = installConfig?.publicBaseUrl?.trim().replace(/\/+$/, '') || '';
 
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [clientConfigTarget, setClientConfigTarget] = useState<ClientSnippetTarget | null>(null);
@@ -84,6 +94,7 @@ const GroupCard = ({ group, servers, onEdit, onDelete, cost }: GroupCardProps) =
   // "Copy URL" actions.
   const clientConfigEndpoint = `${baseUrl}/mcp/${encodeURIComponent(group.name)}`;
   const groupOpenApiEndpoint = `${baseUrl}/api/${group.name}`;
+  const groupPublicEndpoint = publicBaseUrl ? `${publicBaseUrl}/mcp/${group.name}` : '';
 
   const serverNames = getServerNames(group.servers);
   const groupServers = servers.filter((s) => serverNames.includes(s.name));
@@ -355,6 +366,15 @@ const GroupCard = ({ group, servers, onEdit, onDelete, cost }: GroupCardProps) =
             >
               <Copy size={11} /> OpenAPI
             </button>
+            {groupPublicEndpoint && (
+              <button
+                className="hub-btn sm flex-1 justify-center"
+                onClick={() => doCopy(groupPublicEndpoint)}
+                title={`${t('common.copyPublicUrl')}: ${groupPublicEndpoint}`}
+              >
+                <Globe size={11} /> Public
+              </button>
+            )}
           </div>
         </div>
       </div>

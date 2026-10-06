@@ -6,6 +6,7 @@ import {
   AlertCircle,
   Copy,
   CopyPlus,
+  Globe,
   Check,
   RefreshCw,
   Wrench,
@@ -160,6 +161,7 @@ const ServerCard = ({
   const { exportMCPSettings, installConfig } = useSettingsData();
   const { auth } = useAuth();
   const baseUrl = installConfig?.baseUrl?.replace(/\/+$/, '') || '';
+  const publicBaseUrl = installConfig?.publicBaseUrl?.trim().replace(/\/+$/, '') || '';
 
   const [expanded, setExpanded] = useState(false);
   const [expandedTab, setExpandedTab] = useState<'tools' | 'prompts' | 'resources' | 'cost' | null>(
@@ -453,6 +455,7 @@ const ServerCard = ({
 
   const serverEndpoint = `${baseUrl}/mcp/${server.name}`;
   const serverOpenApiEndpoint = `${baseUrl}/api/${server.name}`;
+  const serverPublicEndpoint = publicBaseUrl ? `${publicBaseUrl}/mcp/${server.name}` : '';
 
   const copyEndpoint = async (value: string) => {
     const ok = await copyText(value);
@@ -964,6 +967,31 @@ const ServerCard = ({
                     <Copy size={12} />
                   </button>
                 </div>
+                {serverPublicEndpoint && (
+                  <div className="hub-endpoint" style={{ height: 26 }}>
+                    <div className="hub-endpoint-label">
+                      <Globe size={11} />
+                    </div>
+                    <div
+                      className="hub-endpoint-url"
+                      title={serverPublicEndpoint}
+                      style={{ maxWidth: 260 }}
+                    >
+                      {serverPublicEndpoint.replace(/^https?:\/\//, '')}
+                    </div>
+                    <button
+                      type="button"
+                      className="hub-endpoint-copy"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        void copyEndpoint(serverPublicEndpoint);
+                      }}
+                      title={t('common.copyPublicUrl')}
+                    >
+                      <Copy size={12} />
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
 
